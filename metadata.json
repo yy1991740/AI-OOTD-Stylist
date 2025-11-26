@@ -1,0 +1,5 @@
+{
+  "name": "AI OOTD Stylist",
+  "description": "一个由 AI 驱动的时尚顾问，为您的每日穿搭（OOTD）评分，识别风格，并提供个性化的改进建议。",
+  "requestFramePermissions": []
+}
