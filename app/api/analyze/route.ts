@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getPrompts } from '../../../utils/translations';
-import { Language, ModelId } from '../../../types';
+import { Language } from '../../../types';
 
 export async function POST(req: Request) {
   try {
