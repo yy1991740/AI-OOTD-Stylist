@@ -7,9 +7,10 @@ interface UploadZoneProps {
   onImageSelected: (file: File) => void;
   isAnalyzing: boolean;
   lang: Language;
+  loadingText?: string;
 }
 
-export const UploadZone: React.FC<UploadZoneProps> = ({ onImageSelected, isAnalyzing, lang }) => {
+export const UploadZone: React.FC<UploadZoneProps> = ({ onImageSelected, isAnalyzing, lang, loadingText }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const t = translations[lang].upload;
 
@@ -56,7 +57,9 @@ export const UploadZone: React.FC<UploadZoneProps> = ({ onImageSelected, isAnaly
               {isAnalyzing && (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm">
                   <Loader2 className="w-12 h-12 text-white animate-spin mb-3" />
-                  <p className="text-white font-medium text-lg animate-pulse">{t.analyzing}</p>
+                  <p className="text-white font-medium text-lg animate-pulse px-4 text-center">
+                    {loadingText || t.analyzing}
+                  </p>
                 </div>
               )}
               

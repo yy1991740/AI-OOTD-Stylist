@@ -10,8 +10,8 @@ const compressImage = async (file: File): Promise<string> => {
       img.src = event.target?.result as string;
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 1024; // Limit width to 1024px
-        const MAX_HEIGHT = 1024; // Limit height to 1024px
+        const MAX_WIDTH = 800; // Limit width to 800px
+        const MAX_HEIGHT = 800; // Limit height to 800px
         let width = img.width;
         let height = img.height;
 
@@ -32,8 +32,8 @@ const compressImage = async (file: File): Promise<string> => {
         const ctx = canvas.getContext('2d');
         ctx?.drawImage(img, 0, 0, width, height);
 
-        // Compress to JPEG with 0.7 quality
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        // Compress to JPEG with 0.6 quality
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
         const base64Data = dataUrl.split(',')[1];
         resolve(base64Data);
       };

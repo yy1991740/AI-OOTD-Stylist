@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { UploadZone } from '../components/UploadZone';
 import { ResultCard } from '../components/ResultCard';
@@ -15,8 +15,30 @@ export default function Home() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [language, setLanguage] = useState<Language>('zh');
   const [currentModel, setCurrentModel] = useState<ModelId>('doubao-1.5-vision-pro-250328');
+  const [loadingText, setLoadingText] = useState<string>('');
 
   const t = translations[language].app;
+
+  const loadingMessages = {
+    zh: ["正在压缩图片...", "正在分析色彩搭配...", "正在识别时尚单品...", "正在生成造型建议...", "马上就好..."],
+    en: ["Compressing image...", "Analyzing colors...", "Identifying items...", "Generating advice...", "Almost there..."],
+    id: ["Mengompres gambar...", "Menganalisis warna...", "Mengidentifikasi item...", "Menghasilkan saran...", "Hampir selesai..."]
+  };
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (appState === AppState.ANALYZING) {
+      let index = 0;
+      const messages = loadingMessages[language];
+      setLoadingText(messages[0]);
+      
+      interval = setInterval(() => {
+        index = (index + 1) % messages.length;
+        setLoadingText(messages[index]);
+      }, 2000); // Change message every 2 seconds
+    }
+    return () => clearInterval(interval);
+  }, [appState, language]);
 
   const handleImageSelected = async (file: File) => {
     setAppState(AppState.ANALYZING);
@@ -73,6 +95,7 @@ export default function Home() {
               onImageSelected={handleImageSelected} 
               isAnalyzing={appState === AppState.ANALYZING}
               lang={language}
+              loadingText={loadingText}
             />
           ) : (
             analysisResult && (
